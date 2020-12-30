@@ -1,3 +1,3 @@
 #!/bin/bash
 
-/usr/bin/python3 /root/pErfEcto1s_bot.py &
+/usr/bin/python3 /home/projects/first_tbot/pErfEcto1s_bot.py &

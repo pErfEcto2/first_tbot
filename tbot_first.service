@@ -25,7 +25,7 @@ KillSignal=SIGTERM
 # NotifyAccess=all
 
 # Main process
-ExecStart=/root/bot_starter.sh
+ExecStart=/home/projects/first_tbot/bot_starter.sh
 ExecStop=/usr/bin/pkill -f pErfEcto1s_bot.py
 
 # TimeoutStopSec=10

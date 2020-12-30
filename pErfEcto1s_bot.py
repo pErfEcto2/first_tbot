@@ -20,7 +20,9 @@ def add_whois(t):
     res_ip = []
     for line in l_str:
         ip = re.match(r"(.*\s)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(.*)", line)
-        if ip:
+        if not ip:
+            res_ip.append(line)
+        else:
             link = 'https://www.reg.ru/whois/?dname=' + ip.group(2)
             l2_line = line.split(" ")
             l1_line += l2_line[0:4]

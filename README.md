@@ -1,4 +1,4 @@
-My first telegram bot!
+**My first telegram bot!**
 
 0) Preparing:
   - find and subscribe @BotFather

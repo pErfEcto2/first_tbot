@@ -1,53 +1,45 @@
 import telebot
-import os
-import subprocess
-import re
+import bot_py_lib
 
+# Temperture inside the following file
+tempr_file = '/home/projects/first_tbot/rasp_core_tempr'
+
+# Make list of any possible commands
+buttons = ['/start', 'w', 'get rasp core tempr', 'try']
+
+# Get bot chat id
 with open('/root/tbot_id', 'r') as f:
     bot_id = f.readline().strip()
 
+# Use bot chat id
 bot = telebot.TeleBot(bot_id)
 
-buttons = ['1', 'w', 'get rasp core tempr']
-
-keyboard1 = telebot.types.ReplyKeyboardMarkup(True)
+# Make individual keyboard with our commands
+keyboard1 = telebot.types.ReplyKeyboardMarkup()
 keyboard1.row(*buttons)
 
-def add_whois(t):
-    t = t.decode('utf-8')
-    l_str = t.split("\n")
-    l1_line = []
-    res_ip = []
-    for line in l_str:
-        ip = re.match(r"(.*\s)(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})(.*)", line)
-        if not ip:
-            res_ip.append(line)
-        else:
-            link = 'https://www.reg.ru/whois/?dname=' + ip.group(2)
-            l2_line = line.split(" ")
-            l1_line += l2_line[0:4]
-            l1_line.append(link)
-            l1_line += l2_line[5:-1]
-            res_ip.append(' '.join(l1_line))
-    return '\n'.join(res_ip)
-
+# Bot starts with command 'start', unexpectedly, isnt it?
 @bot.message_handler(commands=['start'])
 def start_message(message):
-    bot.send_message(message.chat.id, 'Привет', reply_markup=keyboard1) 
+    bot.send_message(message.chat.id, 'Hello', reply_markup=keyboard1)
+    bot_py_lib.print_test(message)
 
+# Bot executes commands
 @bot.message_handler(content_types=['text'])
 def sendText(message):
     if message.text == buttons[0]:
-        bot.send_message(message.chat.id, 'Это единишка')
+        bot.send_message(message.chat.id, 'Hello', reply_markup=keyboard1)
     elif message.text == buttons[1]:
-        res = subprocess.run(['w'], stderr=subprocess.STDOUT, stdout=subprocess.PIPE)
-        res = add_whois(res.stdout)
-        bot.send_message(message.chat.id, res)
+        res = bot_py_lib.add_whois()
+        bot.send_message(message.chat.id, res, parse_mode='Markdown', disable_web_page_preview=True)
     elif message.text == buttons[2]:
-        with open('/home/rasp_core_temp', 'r') as f:
-            res = f.readline()
-        bot.send_message(message.chat.id, res)
+        try:
+            with open(tempr_file, 'r') as f:
+                res = f.readline()
+            bot.send_message(message.chat.id, res)
+        except:
+            bot.send_message(message.chat.id, 'Нетути')
     else:
-        bot.send_message(message.chat.id, 'А это фих знает шо')
+        bot.send_message(message.chat.id, 'А это фих знает шоb')
 
 bot.polling()

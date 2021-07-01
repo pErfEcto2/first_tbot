@@ -5,7 +5,7 @@ import bot_py_lib
 tempr_file = '/home/projects/first_tbot/rasp_core_tempr'
 
 # Make list of any possible commands
-buttons = ['/start', 'w', 'get rasp core tempr', 'try']
+buttons = ['/start', 'w', 'get rasp core tempr', 'weather']
 
 # Get bot chat id
 with open('/root/tbot_id', 'r') as f:

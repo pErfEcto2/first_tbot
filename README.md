@@ -6,4 +6,5 @@
   - write this token to '/root/tbot_id'
 1) Put 'tbot_first.service' file into /etc/systemd/system/
 2) systemctl daemon-reload
-3) systemctl start tbot_first.service
+3) systemctl enable tbot_first.service
+4) systemctl start tbot_first.service
